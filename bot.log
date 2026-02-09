@@ -1,0 +1,2 @@
+api_key: str = os.getenv("ALPACA_API_KEY", "your_key_here")
+secret_key: str = os.getenv("ALPACA_SECRET_KEY", "your_secret_here")2026-02-09 14:02:24 | ERROR    | Set ALPACA_API_KEY and ALPACA_SECRET_KEY
