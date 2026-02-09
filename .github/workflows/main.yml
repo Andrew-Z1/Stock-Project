@@ -1,27 +1,16 @@
 # .github/workflows/rsi_bot.yml
-# Runs the RSI Trading Bot v2 every 30 minutes from 8:30 AM – 2:00 PM ET on weekdays
+# HFT Bot — runs every 5 minutes during market hours (9:30 AM – 4:00 PM ET)
 
-name: RSI Trading Bot v2
+name: HFT Trading Bot
 
 on:
   schedule:
-    # Times in UTC (EST = UTC-5)
-    # 8:30 AM ET = 13:30 UTC
-    # 2:00 PM ET = 19:00 UTC
-    - cron: '30 13 * * 1-5'   # 8:30 AM ET
-    - cron: '0 14 * * 1-5'    # 9:00 AM ET
-    - cron: '30 14 * * 1-5'   # 9:30 AM ET
-    - cron: '0 15 * * 1-5'    # 10:00 AM ET
-    - cron: '30 15 * * 1-5'   # 10:30 AM ET
-    - cron: '0 16 * * 1-5'    # 11:00 AM ET
-    - cron: '30 16 * * 1-5'   # 11:30 AM ET
-    - cron: '0 17 * * 1-5'    # 12:00 PM ET
-    - cron: '30 17 * * 1-5'   # 12:30 PM ET
-    - cron: '0 18 * * 1-5'    # 1:00 PM ET
-    - cron: '30 18 * * 1-5'   # 1:30 PM ET
-    - cron: '0 19 * * 1-5'    # 2:00 PM ET
+    # Every 5 minutes, Mon-Fri, during market hours (UTC)
+    # 9:30 AM ET = 14:30 UTC | 4:00 PM ET = 21:00 UTC
+    - cron: '*/5 14-20 * * 1-5'   # Every 5 min, 14:00-20:59 UTC
+    - cron: '30-59/5 13 * * 1-5'  # 13:30-13:55 UTC (9:30-9:55 AM ET)
 
-  workflow_dispatch:  # Manual trigger from GitHub UI
+  workflow_dispatch:  # Manual trigger
 
 jobs:
   run-bot:
@@ -65,4 +54,4 @@ jobs:
         with:
           name: bot-log-${{ github.run_id }}
           path: bot.log
-          retention-days: 30
+          retention-days: 7
