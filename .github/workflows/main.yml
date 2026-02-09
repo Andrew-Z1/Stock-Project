@@ -1,17 +1,13 @@
 # .github/workflows/rsi_bot.yml
-# Runs the RSI trading bot every 30 minutes during market hours (8:30 AM – 2:00 PM ET, weekdays)
+# Runs the RSI Trading Bot v2 every 30 minutes from 8:30 AM – 2:00 PM ET on weekdays
 
-name: RSI Trading Bot
+name: RSI Trading Bot v2
 
 on:
   schedule:
-    # GitHub Actions uses UTC. Eastern Time = UTC-5 (EST) or UTC-4 (EDT)
-    # 8:30 AM – 2:00 PM ET ≈ 12:30 PM – 6:00 PM UTC (EST) / 12:30 PM – 6:00 PM UTC (EDT adjusted below)
-    # Using EST (UTC-5) times — adjust if daylight saving matters to you:
-    #   8:30 AM ET = 13:30 UTC
-    #   9:00 AM ET = 14:00 UTC
-    #   ...
-    #   2:00 PM ET = 19:00 UTC
+    # Times in UTC (EST = UTC-5)
+    # 8:30 AM ET = 13:30 UTC
+    # 2:00 PM ET = 19:00 UTC
     - cron: '30 13 * * 1-5'   # 8:30 AM ET
     - cron: '0 14 * * 1-5'    # 9:00 AM ET
     - cron: '30 14 * * 1-5'   # 9:30 AM ET
@@ -25,7 +21,7 @@ on:
     - cron: '30 18 * * 1-5'   # 1:30 PM ET
     - cron: '0 19 * * 1-5'    # 2:00 PM ET
 
-  workflow_dispatch:  # Lets you trigger manually from GitHub UI
+  workflow_dispatch:  # Manual trigger from GitHub UI
 
 jobs:
   run-bot:
