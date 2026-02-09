@@ -1,20 +1,20 @@
 # .github/workflows/rsi_bot.yml
-# HFT Bot — runs every 5 minutes during market hours (9:30 AM – 4:00 PM ET)
+# Self-chaining HFT bot — runs continuously during market hours
+# Each job runs --loop for up to 5.5 hours, then triggers the next job
 
 name: HFT Trading Bot
 
 on:
   schedule:
-    # Every 5 minutes, Mon-Fri, during market hours (UTC)
-    # 9:30 AM ET = 14:30 UTC | 4:00 PM ET = 21:00 UTC
-    - cron: '*/5 14-20 * * 1-5'   # Every 5 min, 14:00-20:59 UTC
-    - cron: '30-59/5 13 * * 1-5'  # 13:30-13:55 UTC (9:30-9:55 AM ET)
+    # Start fresh every weekday at 9:25 AM ET (14:25 UTC) — 5 min before market open
+    - cron: '25 14 * * 1-5'
 
-  workflow_dispatch:  # Manual trigger
+  workflow_dispatch:  # Manual trigger anytime
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
+    timeout-minutes: 350  # 5h 50m — kills before GitHub's 6h hard limit
 
     steps:
       - name: Checkout repo
@@ -26,7 +26,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install alpaca-py pytz
+        run: pip install alpaca-py pytz requests
 
       - name: Restore bot state
         uses: actions/cache/restore@v4
@@ -35,11 +35,13 @@ jobs:
           key: bot-state-${{ github.run_id }}
           restore-keys: bot-state-
 
-      - name: Run trading bot
+      - name: Run trading bot (loop for ~5h then exit)
         env:
           ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
           ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
-        run: python rsi_trading_bot.py
+        run: |
+          # Run for 5 hours max, then exit cleanly so the chain continues
+          timeout --signal=SIGINT 18000 python rsi_trading_bot.py --loop || true
 
       - name: Save bot state
         uses: actions/cache/save@v4
@@ -55,3 +57,23 @@ jobs:
           name: bot-log-${{ github.run_id }}
           path: bot.log
           retention-days: 7
+
+      - name: Trigger next run (chain)
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          # Only chain during market hours (14:00-21:00 UTC = 9AM-4PM ET)
+          HOUR=$(date -u +%H)
+          DAY=$(date -u +%u)  # 1=Mon, 7=Sun
+
+          if [ "$DAY" -le 5 ] && [ "$HOUR" -ge 14 ] && [ "$HOUR" -lt 21 ]; then
+            echo "Market hours — triggering next run..."
+            curl -X POST \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              "https://api.github.com/repos/${{ github.repository }}/actions/workflows/rsi_bot.yml/dispatches" \
+              -d '{"ref":"main"}'
+          else
+            echo "Outside market hours — stopping chain."
+          fi
