@@ -1,0 +1,72 @@
+# .github/workflows/rsi_bot.yml
+# Runs the RSI trading bot every 30 minutes during market hours (8:30 AM – 2:00 PM ET, weekdays)
+
+name: RSI Trading Bot
+
+on:
+  schedule:
+    # GitHub Actions uses UTC. Eastern Time = UTC-5 (EST) or UTC-4 (EDT)
+    # 8:30 AM – 2:00 PM ET ≈ 12:30 PM – 6:00 PM UTC (EST) / 12:30 PM – 6:00 PM UTC (EDT adjusted below)
+    # Using EST (UTC-5) times — adjust if daylight saving matters to you:
+    #   8:30 AM ET = 13:30 UTC
+    #   9:00 AM ET = 14:00 UTC
+    #   ...
+    #   2:00 PM ET = 19:00 UTC
+    - cron: '30 13 * * 1-5'   # 8:30 AM ET
+    - cron: '0 14 * * 1-5'    # 9:00 AM ET
+    - cron: '30 14 * * 1-5'   # 9:30 AM ET
+    - cron: '0 15 * * 1-5'    # 10:00 AM ET
+    - cron: '30 15 * * 1-5'   # 10:30 AM ET
+    - cron: '0 16 * * 1-5'    # 11:00 AM ET
+    - cron: '30 16 * * 1-5'   # 11:30 AM ET
+    - cron: '0 17 * * 1-5'    # 12:00 PM ET
+    - cron: '30 17 * * 1-5'   # 12:30 PM ET
+    - cron: '0 18 * * 1-5'    # 1:00 PM ET
+    - cron: '30 18 * * 1-5'   # 1:30 PM ET
+    - cron: '0 19 * * 1-5'    # 2:00 PM ET
+
+  workflow_dispatch:  # Lets you trigger manually from GitHub UI
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install alpaca-py pytz
+
+      - name: Restore bot state
+        uses: actions/cache/restore@v4
+        with:
+          path: bot_state.json
+          key: bot-state-${{ github.run_id }}
+          restore-keys: bot-state-
+
+      - name: Run trading bot
+        env:
+          ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+          ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+        run: python rsi_trading_bot.py
+
+      - name: Save bot state
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: bot_state.json
+          key: bot-state-${{ github.run_id }}
+
+      - name: Upload log
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bot-log-${{ github.run_id }}
+          path: bot.log
+          retention-days: 30
