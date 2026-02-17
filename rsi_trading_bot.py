@@ -75,8 +75,8 @@ from alpaca.data.timeframe import TimeFrame
 class BotConfig:
 
     # Alpaca credentials
-    api_key: str = os.getenv("ALPACA_API_KEY", "")
-    secret_key: str = os.getenv("ALPACA_SECRET_KEY", "")
+    api_key: str = os.getenv("ALPACA_API_KEY", "PKOCSTWQW72DB2D5M2PX2I6V5U")
+    secret_key: str = os.getenv("ALPACA_SECRET_KEY", "AiyCrsY9XSzhnAzeAnL6L1NbsNeosm8khYGxDtPZMLan")
     paper_trading: bool = True
 
     # Watchlist — multiple symbols for more opportunities
@@ -564,14 +564,15 @@ def calculate_position_size(
 # =============================================================================
 
 def get_timeframe(tf_str: str) -> TimeFrame:
+    from alpaca.data.timeframe import TimeFrameUnit
     mapping = {
         "1min": TimeFrame.Minute,
-        "5min": TimeFrame(5, "Min"),
-        "15min": TimeFrame(15, "Min"),
+        "5min": TimeFrame(5, TimeFrameUnit.Minute),
+        "15min": TimeFrame(15, TimeFrameUnit.Minute),
         "1hour": TimeFrame.Hour,
         "1day": TimeFrame.Day,
     }
-    return mapping.get(tf_str, TimeFrame(5, "Min"))
+    return mapping.get(tf_str, TimeFrame(5, TimeFrameUnit.Minute))
 
 
 def fetch_ohlcv(

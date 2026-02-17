@@ -1,1 +1,148 @@
-{}
+{
+  "symbols": {
+    "TSLA": {
+      "last_trade_date": "2026-02-09 14:10",
+      "last_side": "SELL",
+      "last_qty": 122,
+      "entry_price": 0,
+      "stop_loss": 0,
+      "take_profit": 0,
+      "trailing_stop": 0
+    },
+    "GOOG": {
+      "last_trade_date": "2026-02-09 14:07",
+      "last_side": "BUY",
+      "last_qty": 155,
+      "entry_price": 320.88,
+      "stop_loss": 320.29,
+      "take_profit": 321.77,
+      "trailing_stop": 320.29
+    },
+    "BLK": {
+      "last_trade_date": "2026-02-09 14:07",
+      "last_side": "BUY",
+      "last_qty": 47,
+      "entry_price": 1052.26,
+      "stop_loss": 1049.4,
+      "take_profit": 1056.56,
+      "trailing_stop": 1049.4
+    },
+    "XOM": {
+      "last_trade_date": "2026-02-09 14:10",
+      "last_side": "SELL",
+      "last_qty": 335,
+      "entry_price": 0,
+      "stop_loss": 0,
+      "take_profit": 0,
+      "trailing_stop": 0
+    },
+    "NFLX": {
+      "last_trade_date": "2026-02-09 14:10",
+      "last_side": "SELL",
+      "last_qty": 607,
+      "entry_price": 0,
+      "stop_loss": 0,
+      "take_profit": 0,
+      "trailing_stop": 0
+    },
+    "PLTR": {
+      "last_trade_date": "2026-02-09 14:10",
+      "last_side": "SELL",
+      "last_qty": 365,
+      "entry_price": 0,
+      "stop_loss": 0,
+      "take_profit": 0,
+      "trailing_stop": 0
+    },
+    "CRM": {
+      "last_trade_date": "2026-02-09 14:10",
+      "last_side": "BUY",
+      "last_qty": 263,
+      "entry_price": 190.01,
+      "stop_loss": 189.4,
+      "take_profit": 190.92,
+      "trailing_stop": 189.4
+    },
+    "GS": {
+      "last_trade_date": "2026-02-09 14:10",
+      "last_side": "BUY",
+      "last_qty": 53,
+      "entry_price": 925.96,
+      "stop_loss": 924.65,
+      "take_profit": 927.93,
+      "trailing_stop": 924.65
+    },
+    "KO": {
+      "last_trade_date": "2026-02-09 14:10",
+      "last_side": "BUY",
+      "last_qty": 635,
+      "entry_price": 78.6669,
+      "stop_loss": 78.58,
+      "take_profit": 78.8,
+      "trailing_stop": 78.58
+    },
+    "CAT": {
+      "last_trade_date": "2026-02-09 14:10",
+      "last_side": "BUY",
+      "last_qty": 69,
+      "entry_price": 722.6455,
+      "stop_loss": 721.31,
+      "take_profit": 724.66,
+      "trailing_stop": 721.31
+    },
+    "COIN": {
+      "last_trade_date": "2026-02-09 14:10",
+      "last_side": "BUY",
+      "last_qty": 312,
+      "entry_price": 160.05,
+      "stop_loss": 159.26,
+      "take_profit": 161.24,
+      "trailing_stop": 159.26
+    },
+    "MA": {
+      "last_trade_date": "2026-02-17 11:53",
+      "last_side": "BUY",
+      "last_qty": 193,
+      "entry_price": 516.44,
+      "stop_loss": 515.69,
+      "take_profit": 517.56,
+      "trailing_stop": 515.69
+    },
+    "TMO": {
+      "last_trade_date": "2026-02-17 11:53",
+      "last_side": "BUY",
+      "last_qty": 199,
+      "entry_price": 502.2,
+      "stop_loss": 501.3,
+      "take_profit": 503.56,
+      "trailing_stop": 501.3
+    },
+    "GE": {
+      "last_trade_date": "2026-02-17 11:53",
+      "last_side": "BUY",
+      "last_qty": 318,
+      "entry_price": 314.24,
+      "stop_loss": 313.87,
+      "take_profit": 314.79,
+      "trailing_stop": 313.87
+    },
+    "UPS": {
+      "last_trade_date": "2026-02-17 11:53",
+      "last_side": "BUY",
+      "last_qty": 852,
+      "entry_price": 117.34,
+      "stop_loss": 117.03,
+      "take_profit": 117.8,
+      "trailing_stop": 117.03
+    },
+    "DE": {
+      "last_trade_date": "2026-02-17 11:53",
+      "last_side": "BUY",
+      "last_qty": 167,
+      "entry_price": 596.99,
+      "stop_loss": 595.56,
+      "take_profit": 599.14,
+      "trailing_stop": 595.56
+    }
+  }
+}
